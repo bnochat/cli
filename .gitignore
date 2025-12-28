@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+build/
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Environment
+.env.local
+.env.*.local
+
+# Test coverage
+coverage/
+
+# Cache
+.npm/
+.eslintcache
+.cache/
+
+# Binaries
+*.exe
+*.dmg
+*.pkg
+*.deb
+*.rpm
+bin/
+
+# Kiro
+.kiro/

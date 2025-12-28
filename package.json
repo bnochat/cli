@@ -1,0 +1,68 @@
+{
+  "name": "cli",
+  "version": "1.0.0",
+  "description": "Terminal chat application for Ubuntu, Windows, and macOS",
+  "main": "dist/index.js",
+  "bin": {
+    "bno": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && node -e \"require('fs').cpSync('src/auth/success.html','dist/auth/success.html')\"",
+    "start": "node dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "package": "npm run build && pkg dist/index.js --targets node18-win-x64,node18-macos-x64,node18-macos-arm64,node18-linux-x64 --output bin/bno",
+    "package:win": "npm run build && pkg dist/index.js --targets node18-win-x64 --output bin/bno.exe",
+    "package:mac": "npm run build && pkg dist/index.js --targets node18-macos-x64 --output bin/bno-macos-x64",
+    "package:mac-arm": "npm run build && pkg dist/index.js --targets node18-macos-arm64 --output bin/bno-macos-arm64",
+    "package:linux": "npm run build && pkg dist/index.js --targets node18-linux-x64 --output bin/bno-linux"
+  },
+  "keywords": [
+    "chat",
+    "cli",
+    "terminal",
+    "cross-platform"
+  ],
+  "author": "bnochat",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bnochat/cli.git"
+  },
+  "homepage": "https://bnochat.cc/",
+  "bugs": {
+    "url": "https://github.com/bnochat/cli/issues"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "axios": "^1.6.2",
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "dotenv": "^17.2.3",
+    "open": "^8.4.2",
+    "ws": "^8.14.2"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.0",
+    "@types/ws": "^8.5.10",
+    "@yao-pkg/pkg": "^6.11.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.2"
+  },
+  "pkg": {
+    "assets": [
+      "dist/auth/success.html"
+    ],
+    "targets": [
+      "node18-win-x64",
+      "node18-macos-x64",
+      "node18-linux-x64"
+    ]
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

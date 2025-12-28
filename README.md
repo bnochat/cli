@@ -1,0 +1,76 @@
+# bnochat-cli
+
+Terminal chat application for Ubuntu, Windows, and macOS.
+
+## Installation
+
+### Option 1: Download Binary (No dependencies)
+
+Download from [Releases](https://github.com/bnochat/cli/releases):
+
+| OS | File |
+|----|------|
+| Windows | `bno.exe` |
+| macOS (Intel) | `bno-macos-x64` |
+| macOS (M1/M2/M3) | `bno-macos-arm64` |
+| Linux | `bno-linux` |
+
+### macOS
+
+```bash
+# Homebrew
+brew tap bnochat/cli && brew install bnochat
+
+# Or manual
+curl -L -o bno https://github.com/bnochat/cli/releases/download/v1.0.0/bno-macos-arm64
+chmod +x bno && xattr -d com.apple.quarantine bno
+sudo mv bno /usr/local/bin/
+```
+
+### Linux
+
+```bash
+# Auto install
+curl -fsSL https://raw.githubusercontent.com/bnochat/cli/main/scripts/install.sh | bash
+
+# Or .deb
+curl -L -o bnochat.deb https://github.com/bnochat/cli/releases/download/v1.0.0/bnochat_1.0.0_amd64.deb
+sudo dpkg -i bnochat.deb
+```
+
+### Option 2: npm (Requires Node.js)
+
+```bash
+npm install -g bnochat-cli
+```
+
+## Usage
+
+```bash
+bno -v        # Check version
+bno -c        # Check for updates
+bno -u        # Update to latest
+bno -a        # Login via browser
+bno -l        # Logout
+bno -j        # Join chat room
+```
+
+## Chat Commands
+
+| Command | Action |
+|---------|--------|
+| `/q` | Leave room |
+| `/quit` | Leave room |
+| `/exit` | Leave room |
+
+## Development
+
+```bash
+npm install
+npm run dev -- -j    # Test client
+npm run package      # Build binaries
+```
+
+## License
+
+MIT
