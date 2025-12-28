@@ -1,4 +1,4 @@
-# bnochat-cli
+# bno-cli
 
 Terminal chat application for Ubuntu, Windows, and macOS.
 
@@ -21,8 +21,8 @@ Download from [Releases](https://github.com/bnochat/cli/releases):
 # Homebrew
 brew tap bnochat/cli && brew install bnochat
 
-# Or manual
-curl -L -o bno https://github.com/bnochat/cli/releases/download/v1.0.0/bno-macos-arm64
+# Or manual (replace VERSION with latest)
+curl -L -o bno https://github.com/bnochat/cli/releases/latest/download/bno-macos-arm64
 chmod +x bno && xattr -d com.apple.quarantine bno
 sudo mv bno /usr/local/bin/
 ```
@@ -33,15 +33,15 @@ sudo mv bno /usr/local/bin/
 # Auto install
 curl -fsSL https://raw.githubusercontent.com/bnochat/cli/main/scripts/install.sh | bash
 
-# Or .deb
-curl -L -o bnochat.deb https://github.com/bnochat/cli/releases/download/v1.0.0/bnochat_1.0.0_amd64.deb
+# Or .deb (check latest version at releases page)
+curl -L -o bnochat.deb https://github.com/bnochat/cli/releases/latest/download/bnochat_1.0.1_amd64.deb
 sudo dpkg -i bnochat.deb
 ```
 
 ### Option 2: npm (Requires Node.js)
 
 ```bash
-npm install -g bnochat-cli
+npm install -g bno-cli
 ```
 
 ## Usage

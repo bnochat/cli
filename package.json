@@ -1,5 +1,5 @@
 {
-  "name": "cli",
+  "name": "bno-cli",
   "version": "1.0.0",
   "description": "Terminal chat application for Ubuntu, Windows, and macOS",
   "main": "dist/index.js",
