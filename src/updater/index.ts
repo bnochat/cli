@@ -31,6 +31,14 @@ export class Updater {
   }
 
   async update(): Promise<void> {
+    // Check if running via npm/Volta (not standalone binary)
+    if (process.execPath.includes('node') || process.execPath.includes('volta')) {
+      console.log(chalk.yellow('Auto-update is not available when installed via npm/Volta.'));
+      console.log(chalk.gray('Please update using: npm update -g bno-cli'));
+      console.log(chalk.gray('Or download binary from: https://github.com/bnochat/cli/releases'));
+      return;
+    }
+
     console.log(chalk.cyan('Checking for updates...'));
     try {
       const { hasUpdate, latest } = await this.getLatest();
@@ -57,10 +65,18 @@ export class Updater {
       fs.chmodSync(tempPath, '755');
 
       if (process.platform === 'win32') {
-        const batch = `@echo off\ntimeout /t 1 >nul\ncopy /Y "${tempPath}" "${process.execPath}"\ndel "${tempPath}"`;
+        const tempExe = tempPath + '.exe';
+        fs.renameSync(tempPath, tempExe);
+        const batch = `@echo off
+:retry
+timeout /t 1 /nobreak >nul
+copy /Y "${tempExe}" "${process.execPath}" >nul 2>&1
+if errorlevel 1 goto retry
+del "${tempExe}"
+del "%~f0"`;
         const batchPath = path.join(os.tmpdir(), 'bno-update.bat');
         fs.writeFileSync(batchPath, batch);
-        spawn('cmd', ['/c', batchPath], { detached: true, stdio: 'ignore' }).unref();
+        spawn('cmd', ['/c', batchPath], { detached: true, stdio: 'ignore', windowsHide: true }).unref();
       } else {
         try {
           fs.copyFileSync(tempPath, process.execPath);
