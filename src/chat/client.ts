@@ -47,25 +47,45 @@ export class ChatClient {
     }
     this.roomCode = code;
 
-    const pin = await this.prompt(rl, chalk.cyan('Room PIN (press Enter if none): '));
+    let pin = await this.prompt(rl, chalk.cyan('Room PIN (press Enter if none): '));
     rl.close();
 
-    console.log(chalk.cyan('\nJoining room...'));
+    // Call API to join room with retry
+    let joined = false;
+    while (!joined) {
+      console.log(chalk.cyan('\nJoining room...'));
+      try {
+        const cookies = [];
+        if (this.token?.anonymousToken) cookies.push(`bnochat.anonymous-token=${this.token.anonymousToken}`);
+        if (this.token?.userToken) cookies.push(`bnochat.user-token=${this.token.userToken}`);
 
-    // Call API to join room
-    try {
-      const cookies = [];
-      if (this.token?.anonymousToken) cookies.push(`bnochat.anonymous-token=${this.token.anonymousToken}`);
-      if (this.token?.userToken) cookies.push(`bnochat.user-token=${this.token.userToken}`);
-
-      const headers = { Cookie: cookies.join('; ') };
-      const endpoint = pin ? `${config.apiUrl}/room/join-pin` : `${config.apiUrl}/room/join`;
-      const body = pin ? { code, pin } : { code };
-      await axios.post(endpoint, body, { headers });
-    } catch (err: any) {
-      const msg = err.response?.data?.message || err.message || 'Failed to join room';
-      console.log(chalk.red(`\n✗ ${msg}`));
-      return;
+        const headers = { Cookie: cookies.join('; ') };
+        const endpoint = pin ? `${config.apiUrl}/room/join-pin` : `${config.apiUrl}/room/join`;
+        const body = pin ? { code, pin } : { code };
+        await axios.post(endpoint, body, { headers });
+        joined = true;
+      } catch (err: any) {
+        const msg = err.response?.data?.message || err.message || 'Failed to join room';
+        console.log(chalk.red(`\n✗ ${msg}`));
+        
+        const retryRl = readline.createInterface({ input: process.stdin, output: process.stdout });
+        code = await this.prompt(retryRl, chalk.cyan('Room Code (or /q to quit): '));
+        
+        if (['/q', '/quit', '/exit'].includes(code.trim())) {
+          retryRl.close();
+          return;
+        }
+        
+        if (!code.trim()) {
+          console.log(chalk.red('Room Code is required'));
+          retryRl.close();
+          continue;
+        }
+        
+        this.roomCode = code.trim();
+        pin = await this.prompt(retryRl, chalk.cyan('Room PIN (press Enter if none): '));
+        retryRl.close();
+      }
     }
 
     console.log(chalk.cyan('Connecting...'));
