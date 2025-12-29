@@ -4,7 +4,7 @@
 
 set -e
 
-VERSION="1.0.9"
+VERSION="1.0.10"
 INSTALL_DIR="/usr/local/bin"
 REPO="bnochat/cli"
 

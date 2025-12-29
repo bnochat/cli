@@ -173,7 +173,7 @@ export class ChatClient {
 
   private display(msg: Message): void {
     if (msg.isOwn) return;
-    console.log(`[${chalk.blue(msg.displayName)}]: ${msg.text}`);
+    console.log(`${chalk.blue(msg.displayName)}: ${msg.text}`);
   }
 
   private leave(): void {

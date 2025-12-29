@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION="1.0.9"
+VERSION="1.0.10"
 PACKAGE_NAME="bnochat"
 ARCH="amd64"
 
