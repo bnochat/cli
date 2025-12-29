@@ -8,8 +8,11 @@ import { config, getCallbackUrl } from '../config';
 
 const CONFIG_DIR = path.join(os.homedir(), '.bno');
 const TOKEN_FILE = path.join(CONFIG_DIR, 'auth.json');
-const SUCCESS_HTML = fs.readFileSync(path.join(__dirname, 'success.html'), 'utf-8')
-  .replace('{{BASE_URL}}', config.baseUrl);
+
+const getSuccessHtml = () => {
+  const htmlPath = path.join(__dirname, 'success.html');
+  return fs.readFileSync(htmlPath, 'utf-8').replace('{{BASE_URL}}', config.baseUrl);
+};
 
 interface TokenData {
   userToken: string;
@@ -34,7 +37,7 @@ export class Auth {
           if (anonymousToken || userToken) {
             this.save({ anonymousToken, userToken });
             res.writeHead(200, { 'Content-Type': 'text/html' });
-            res.end(SUCCESS_HTML);
+            res.end(getSuccessHtml());
             console.log(chalk.green(`\n✓ Logged in\n`));
             setTimeout(() => { server.close(); resolve(true); }, 1000);
           } else {

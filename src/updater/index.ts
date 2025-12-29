@@ -1,4 +1,3 @@
-import axios from 'axios';
 import chalk from 'chalk';
 import fs from 'fs';
 import os from 'os';
@@ -31,7 +30,6 @@ export class Updater {
   }
 
   async update(): Promise<void> {
-    // Check if running via npm/Volta (not standalone binary)
     if (process.execPath.includes('node') || process.execPath.includes('volta')) {
       console.log(chalk.yellow('Auto-update is not available when installed via npm/Volta.'));
       console.log(chalk.gray('Please update using: npm update -g bno-cli'));
@@ -41,27 +39,27 @@ export class Updater {
 
     console.log(chalk.cyan('Checking for updates...'));
     try {
-      const { hasUpdate, latest } = await this.getLatest();
+      const { hasUpdate, latest, release } = await this.getLatest();
       if (!hasUpdate) {
         console.log(chalk.green(`Already on latest version (${config.version})`));
         return;
       }
 
       console.log(chalk.cyan(`Downloading v${latest}...`));
-      const res = await axios.get<Release>(this.apiUrl);
       const expectedName = this.getBinaryName();
       console.log(chalk.gray(`Looking for: ${expectedName}`));
-      console.log(chalk.gray(`Available assets: ${res.data.assets.map(a => a.name).join(', ') || 'none'}`));
-      const asset = res.data.assets.find(a => a.name === expectedName);
+      console.log(chalk.gray(`Available assets: ${release.assets.map(a => a.name).join(', ') || 'none'}`));
+      const asset = release.assets.find(a => a.name === expectedName);
 
       if (!asset) {
         console.log(chalk.red('No compatible binary found'));
         return;
       }
 
-      const download = await axios.get(asset.browser_download_url, { responseType: 'arraybuffer' });
+      const res = await fetch(asset.browser_download_url);
+      const buffer = Buffer.from(await res.arrayBuffer());
       const tempPath = path.join(os.tmpdir(), 'bno-update');
-      fs.writeFileSync(tempPath, download.data);
+      fs.writeFileSync(tempPath, buffer);
       fs.chmodSync(tempPath, '755');
 
       if (process.platform === 'win32') {
@@ -94,10 +92,11 @@ del "%~f0"`;
     }
   }
 
-  private async getLatest(): Promise<{ hasUpdate: boolean; latest: string }> {
-    const res = await axios.get<Release>(this.apiUrl);
-    const latest = res.data.tag_name.replace('v', '');
-    return { hasUpdate: this.compare(latest, config.version) > 0, latest };
+  private async getLatest(): Promise<{ hasUpdate: boolean; latest: string; release: Release }> {
+    const res = await fetch(this.apiUrl);
+    const release = await res.json() as Release;
+    const latest = release.tag_name.replace('v', '');
+    return { hasUpdate: this.compare(latest, config.version) > 0, latest, release };
   }
 
   private getBinaryName(): string {

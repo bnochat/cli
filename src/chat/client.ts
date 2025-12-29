@@ -1,7 +1,6 @@
 import { io, Socket } from 'socket.io-client';
 import readline from 'readline';
 import chalk from 'chalk';
-import axios from 'axios';
 import { Auth } from '../auth';
 import { config } from '../config';
 
@@ -59,13 +58,22 @@ export class ChatClient {
         if (this.token?.anonymousToken) cookies.push(`bnochat.anonymous-token=${this.token.anonymousToken}`);
         if (this.token?.userToken) cookies.push(`bnochat.user-token=${this.token.userToken}`);
 
-        const headers = { Cookie: cookies.join('; ') };
+        const headers: Record<string, string> = { 'Content-Type': 'application/json' };
+        if (cookies.length) headers['Cookie'] = cookies.join('; ');
         const endpoint = pin ? `${config.apiUrl}/room/join-pin` : `${config.apiUrl}/room/join`;
         const body = pin ? { code, pin } : { code };
-        await axios.post(endpoint, body, { headers });
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify(body)
+        });
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          throw new Error((data as any).message || `HTTP ${res.status}`);
+        }
         joined = true;
       } catch (err: any) {
-        const msg = err.response?.data?.message || err.message || 'Failed to join room';
+        const msg = err.message || 'Failed to join room';
         console.log(chalk.red(`\n✗ ${msg}`));
         
         const retryRl = readline.createInterface({ input: process.stdin, output: process.stdout });

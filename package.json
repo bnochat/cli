@@ -1,6 +1,6 @@
 {
   "name": "bno-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Terminal chat application for Ubuntu, Windows, and macOS",
   "main": "dist/index.js",
   "bin": {
@@ -40,7 +40,6 @@
     "LICENSE"
   ],
   "dependencies": {
-    "axios": "^1.6.2",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "dotenv": "^17.2.3",
@@ -56,6 +55,9 @@
     "typescript": "^5.3.2"
   },
   "pkg": {
+    "scripts": [
+      "dist/**/*.js"
+    ],
     "assets": [
       "dist/auth/success.html"
     ],
@@ -63,7 +65,8 @@
       "node18-win-x64",
       "node18-macos-x64",
       "node18-linux-x64"
-    ]
+    ],
+    "outputPath": "bin"
   },
   "engines": {
     "node": ">=16.0.0"
