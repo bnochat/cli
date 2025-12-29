@@ -13,9 +13,6 @@ jobs:
           - os: ubuntu-latest
             target: linux
             asset: bno-linux
-          - os: ubuntu-24.04-arm64
-            target: linux-arm64
-            asset: bno-linux-arm64
           - os: macos-latest
             target: mac
             asset: bno-macos-x64
