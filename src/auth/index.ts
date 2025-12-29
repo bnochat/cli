@@ -8,7 +8,8 @@ import { config, getCallbackUrl } from '../config';
 
 const CONFIG_DIR = path.join(os.homedir(), '.bno');
 const TOKEN_FILE = path.join(CONFIG_DIR, 'auth.json');
-const SUCCESS_HTML = fs.readFileSync(path.join(__dirname, 'success.html'), 'utf-8');
+const SUCCESS_HTML = fs.readFileSync(path.join(__dirname, 'success.html'), 'utf-8')
+  .replace('{{BASE_URL}}', config.baseUrl);
 
 interface TokenData {
   userToken: string;

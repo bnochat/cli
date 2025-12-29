@@ -7,8 +7,8 @@ export const config = {
   version: '1.0.1',
   repo: 'bnochat/cli',
   
-  // WebSocket Server
-  serverUrl: process.env.SERVER_URL || 'wss://socket.bnochat.cc',
+  // Socket.io Server
+  socketUrl: process.env.SOCKET_URL || 'wss://socket.bnochat.cc',
   
   // Base URL
   baseUrl,

@@ -47,12 +47,13 @@ npm install -g bno-cli
 ## Usage
 
 ```bash
-bno -v        # Check version
-bno -c        # Check for updates
-bno -u        # Update to latest
-bno -a        # Login via browser
-bno -l        # Logout
-bno -j        # Join chat room
+bno -h, --help         #display help for command
+bno -a, --auth         #Login via browser
+bno -j, --join [code]  #Join a chat room
+bno -v, --version      #output the version number
+bno -c, --check        #Check for updates
+bno -u, --update       #Update to latest version
+bno -l, --logout       #Logout
 ```
 
 ## Chat Commands

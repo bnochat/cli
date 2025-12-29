@@ -12,12 +12,12 @@ const auth = new Auth();
 
 program
   .name('bno')
-  .description('Terminal chat application')
-  .version(config.version, '-v, --version')
+  .description('Terminal chat application.\n\nFirst, authenticate by running "bno -a" - this opens your browser for login approval.\nOnce logged in, join a chat room with "bno -j <roomCode>" to start chatting.')
+  .option('-a, --auth', 'Login via browser')
   .option('-j, --join [code]', 'Join a chat room')
+  .version(config.version, '-v, --version')
   .option('-c, --check', 'Check for updates')
   .option('-u, --update', 'Update to latest version')
-  .option('-a, --auth', 'Login via browser')
   .option('-l, --logout', 'Logout');
 
 program.parse();
@@ -28,7 +28,7 @@ const opts = program.opts();
   if (opts.auth) {
     const success = await auth.login();
     if (success) {
-      await new ChatClient(config.serverUrl, auth).join();
+      await new ChatClient(config.socketUrl, auth).join();
     }
   } else if (opts.logout) {
     auth.logout();
@@ -42,7 +42,7 @@ const opts = program.opts();
       process.exit(1);
     }
     const code = typeof opts.join === 'string' ? opts.join : undefined;
-    await new ChatClient(config.serverUrl, auth).join(code);
+    await new ChatClient(config.socketUrl, auth).join(code);
   } else {
     program.help();
   }
