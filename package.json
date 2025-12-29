@@ -14,7 +14,8 @@
     "package:win": "npm run build && pkg dist/index.js --targets node18-win-x64 --output bin/bno.exe",
     "package:mac": "npm run build && pkg dist/index.js --targets node18-macos-x64 --output bin/bno-macos-x64",
     "package:mac-arm": "npm run build && pkg dist/index.js --targets node18-macos-arm64 --output bin/bno-macos-arm64",
-    "package:linux": "npm run build && pkg dist/index.js --targets node18-linux-x64 --output bin/bno-linux"
+    "package:linux": "npm run build && pkg dist/index.js --targets node18-linux-x64 --output bin/bno-linux",
+    "publish": "npm run build && npm publish"
   },
   "keywords": [
     "chat",
