@@ -110,6 +110,9 @@ bno -c
 
 # Update to latest
 bno -u
+
+# Update for npm
+npm update -g bno-cli
 ```
 
 ---
