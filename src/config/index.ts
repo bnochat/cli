@@ -4,7 +4,7 @@ const baseUrl = process.env.BASE_URL || 'https://bnochat.cc';
 
 export const config = {
   // App
-  version: '1.0.3',
+  version: '1.0.4',
   repo: 'bnochat/cli',
   
   // Socket.io Server

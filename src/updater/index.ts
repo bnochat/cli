@@ -24,8 +24,9 @@ export class Updater {
       } else {
         console.log(chalk.green(`You're on the latest version (${config.version})`));
       }
-    } catch {
+    } catch (err) {
       console.log(chalk.red('Failed to check for updates'));
+      console.log(chalk.gray((err as Error).message));
     }
   }
 
@@ -40,7 +41,10 @@ export class Updater {
 
       console.log(chalk.cyan(`Downloading v${latest}...`));
       const res = await axios.get<Release>(this.apiUrl);
-      const asset = res.data.assets.find(a => a.name === this.getBinaryName());
+      const expectedName = this.getBinaryName();
+      console.log(chalk.gray(`Looking for: ${expectedName}`));
+      console.log(chalk.gray(`Available assets: ${res.data.assets.map(a => a.name).join(', ') || 'none'}`));
+      const asset = res.data.assets.find(a => a.name === expectedName);
 
       if (!asset) {
         console.log(chalk.red('No compatible binary found'));
@@ -68,8 +72,9 @@ export class Updater {
 
       console.log(chalk.green(`✓ Updated to v${latest}`));
       console.log(chalk.gray('Restart bno to use new version'));
-    } catch {
+    } catch (err) {
       console.log(chalk.red('Update failed'));
+      console.log(chalk.gray((err as Error).message));
     }
   }
 
