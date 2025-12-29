@@ -1,7 +1,7 @@
 class Bnochat < Formula
   desc "Terminal chat application"
   homepage "https://github.com/bnochat/cli"
-  version "1.0.0"
+  version "1.0.9"
 
   if OS.mac? && Hardware::CPU.arm?
     url "https://github.com/bnochat/cli/releases/download/v1.0.0/bnochat-macos-arm64"
