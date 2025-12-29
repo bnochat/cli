@@ -19,16 +19,11 @@
 
 ## Installation
 
-### Download Binary (Recommended)
+### npm (Requires Node.js)
 
-No dependencies required. Download and run.
-
-| Platform | Download | Notes |
-|----------|----------|-------|
-| **Windows** | [`bno.exe`](https://github.com/bnochat/cli/releases/latest/download/bno.exe) | Run directly |
-| **macOS (Intel)** | [`bno-macos-x64`](https://github.com/bnochat/cli/releases/latest/download/bno-macos-x64) | See setup below |
-| **macOS (Apple Silicon)** | [`bno-macos-arm64`](https://github.com/bnochat/cli/releases/latest/download/bno-macos-arm64) | See setup below |
-| **Linux** | [`bno-linux`](https://github.com/bnochat/cli/releases/latest/download/bno-linux) | See setup below |
+```bash
+npm install -g bno-cli
+```
 
 #### macOS Setup
 
@@ -60,11 +55,20 @@ chmod +x bno && sudo mv bno /usr/local/bin/
 brew tap bnochat/cli && brew install bnochat
 ```
 
-### npm (Requires Node.js)
+### Download Binary (Recommended)
 
-```bash
-npm install -g bno-cli
-```
+No dependencies required. Download and run.
+
+| Platform | Download | Notes |
+|----------|----------|-------|
+| **Windows** | [`bno.exe`](https://github.com/bnochat/cli/releases/latest/download/bno.exe) | Run directly |
+| **macOS (Intel)** | [`bno-macos-x64`](https://github.com/bnochat/cli/releases/latest/download/bno-macos-x64) | See setup below |
+| **macOS (Apple Silicon)** | [`bno-macos-arm64`](https://github.com/bnochat/cli/releases/latest/download/bno-macos-arm64) | See setup below |
+| **Linux** | [`bno-linux`](https://github.com/bnochat/cli/releases/latest/download/bno-linux) | See setup below |
+
+
+
+
 
 ---
 
